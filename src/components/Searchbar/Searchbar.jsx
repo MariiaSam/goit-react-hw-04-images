@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { CiSearch } from 'react-icons/ci';
 
@@ -9,45 +9,38 @@ import {
   SearchFormInput,
 } from './Searchbar.styled';
 
-export class SearchBar extends Component {
-  state = {
-    value: '',
+export const SearchBar = ({ onSubmit }) => {
+  const [value, setValue] = useState('');
+
+  const hanlerChange = ({ target }) => {
+    setValue(target.value);
   };
 
-  hanlerChange = ({ target }) => {
-    this.setState({
-      value: target.value,
-    });
-  };
-
-  handleSubmit = evt => {
+  const handleSubmit = evt => {
     evt.preventDefault();
 
-    this.props.onSubmit(this.state.value);
-    this.setState({ value: '' });
+    onSubmit(value);
+    setValue('');
   };
 
-  render() {
-    const { value } = this.state;
-    return (
-      <Header>
-        <SearchForm onSubmit={this.handleSubmit}>
-          <SearchFormBtn type="submit">
-            <CiSearch size="24" />
-          </SearchFormBtn>
-          <SearchFormInput
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            value={value}
-            onChange={this.hanlerChange}
-          />
-        </SearchForm>
-      </Header>
-    );
-  }
-}
+  return (
+    <Header>
+      <SearchForm onSubmit={handleSubmit}>
+        <SearchFormBtn type="submit">
+          <CiSearch size="24" />
+        </SearchFormBtn>
+        <SearchFormInput
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          value={value}
+          onChange={hanlerChange}
+        />
+      </SearchForm>
+    </Header>
+  );
+};
 
 SearchBar.propTypes = {
   onSubmit: PropTypes.func.isRequired,

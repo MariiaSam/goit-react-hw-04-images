@@ -53,14 +53,14 @@ export const App = () => {
     setGallery([]);
     setPage(1);
   };
-  
+
   const onLoadMoreImage = () => {
     setPage(page => page + 1);
   };
 
   const onOpenModal = largeImage => {
     if (largeImage) {
-      setLargeImage({ largeImage });
+      setLargeImage(largeImage);
       toggleModal();
     }
   };
